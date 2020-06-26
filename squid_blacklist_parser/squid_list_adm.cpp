@@ -20,11 +20,10 @@ void squid_list_adm::get_search_templates(static string& St_file)
 	if (search_templ_file.is_open())
 	{
 		string s_templ;
-		while (search_templ_file.getline(s_templ))
+		while (getline(search_templ_file, s_templ))
 		{
 			search_templates.push_back(s_templ);
 		}
-
 	}
 	else
 	{
