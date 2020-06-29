@@ -7,9 +7,9 @@
 
 int main()
 {
-    string output_file = "";
-    string domain_name_file = "";
-    string blacklist_file = "";
+    string output_file = "D:\\log\\squid\\conf_param_sites_blocked_upd.txt";
+    string domain_name_file = "D:\\log\\squid\\domain_list.txt";
+    string blacklist_file = "D:\\log\\squid\\conf_param_sites_blocked.txt";
     string comment = "#";
  
     squid_list_adm s_adm(comment);

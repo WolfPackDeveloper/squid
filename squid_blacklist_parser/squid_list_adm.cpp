@@ -20,7 +20,7 @@ void squid_list_adm::set_comment_symbol(string symbol_commment)
 void squid_list_adm::get_search_templates(static string& St_file)
 {
 	ifstream search_templ_file;
-	search_templ_file.open(St_file, ios::in);
+	search_templ_file.open(St_file, ios_base::in);
 
 	if (search_templ_file.is_open())
 	{
@@ -36,8 +36,8 @@ void squid_list_adm::get_search_templates(static string& St_file)
 	}
 
 // Debug
-	for (string str : search_templates)
-		std::cout << str << endl;
+//	for (string str : search_templates)
+//		std::cout << str << endl;
 
 	search_templ_file.close();
 	search_templ_file.clear();
@@ -62,8 +62,8 @@ void squid_list_adm::get_source_list(static string& Sl_file)
 	}
 
 // Debug
-	for (string str : source_list)
-		std::cout << str << endl;
+//	for (string str : source_list)
+//		std::cout << str << endl;
 
 	source_list_file.close();
 	source_list_file.clear();
@@ -74,15 +74,35 @@ void squid_list_adm::comment_source_list(static string& Out_file)
 	ofstream output_file;
 	output_file.open(Out_file);
 
-	for (string s_templ : search_templates)
-		for (string s_line : source_list)
+	for (int i=0; i<source_list.size(); ++i)
+	{
+
+		for (string domain_templ : search_templates)
 		{
-			// Если запись включает "шаблон" (домен верхнего уровня) и уже не закомментирована - комментируем.
-			if ((s_line.find(s_templ)) > 0 and (s_line.find(comment_symbol) < 0))
-				std::cout << comment_symbol << '\t' << s_line << endl;
-			else
-				std::cout << s_line << endl;
+			int in_domain = source_list[i].find(domain_templ);
+			int commented = source_list[i].find(comment_symbol);
+
+			// Домен .co попадает в совпадение во всех сайтах *.com. Надо это как-то обходить.
+			int with_co = in_domain + domain_templ.size();
+			int with_com = source_list[i].size();
+
+			if (in_domain > 0 and commented != 0 and with_co == with_com)
+			{
+				source_list[i] = comment_symbol + '\t' + source_list[i];
+
+				//Debug - Log
+				std::cout << "Line number: " << i+1 << endl;
+				std::cout << domain_templ << endl;
+				std::cout << source_list[i] << endl;
+
+				break;
+			}
 		}
+
+	}
+
+	for (string sl_line : source_list)
+		output_file << sl_line << endl;
 
 	output_file.close();
 	output_file.clear();
