@@ -12,11 +12,11 @@ int main()
     string blacklist_file = "D:\\log\\squid\\conf_param_sites_blocked.txt";
     string comment = "#";
  
-    squid_list_adm s_adm(comment);
+    squid_list_adm s_adm{ comment };
 
-    s_adm.get_search_templates(domain_name_file);
-    s_adm.get_source_list(blacklist_file);
-    s_adm.comment_source_list(output_file);
+    //s_adm.get_search_templates(domain_name_file);
+    //s_adm.get_source_list(blacklist_file);
+    //s_adm.comment_source_list(output_file);
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
